@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            {% if todos %}
+                <h1>{{ todos.count }} Current Todo{{ todos.count|pluralize }}</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-1">
+        <div class="col-md-10">
+            {% if todos %}
+                <div class="list-group">
+                    {% for todo in todos %}
+                        <a href="{% url 'see_todo' todo.id %}" class="list-group-item list-group-item-action
+                            {% if todo.is_important %} list-group-item-danger {% endif %}">
+                            <b>{{ todo.title }}</b>
+                        </a>
+                        {% if todo.body %} - {{ todo.body|truncatechars:30 }}{% endif %}
+                    {% endfor %}
+                </div>
+                <a role="button" href="{% url 'create_todos' %}" class="btn btn-primary">Create Todo</a>
+            {% else %}
+                <div class="text-center">
+                    <h2>You don't have any todos. Nice work!</h2><br>
+                    <a role="button" class="btn btn-primary" href="{% url 'create_todos' %}">
+                        New Todo
+                    </a>
+                </div>
+            {% endif %}
+{#            <a href="{% url 'completed_todos' %}" class="btn btn-primary">Completed</a>#}
+
+{#                <button onclick="window.location.href = {% url 'create_todos' %};" type="submit" class="btn-link"#}
+{#                        style="text-decoration:none">Create</button>#}
+        </div>
+    </div>
+{% endblock %}
